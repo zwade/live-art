@@ -1,43 +1,22 @@
 import * as React from "react";
+import { Canvas } from "./canvas";
+import { ColorPicker, ColorProvider } from "./colors";
 
-type Dimensions = { width: number, height: number };
+import "./index.scss";
 
-const baseResolution: Dimensions = { width: 500, height: 300 };
+export interface Props {
 
-export const Editor = () => {
-    const [dimensions, updateDimensions] = React.useReducer(
-        (canvasDimensions: Dimensions, windowDimensions: Dimensions) => {
-            const newScale = Math.floor(Math.min(
-                (windowDimensions.width / baseResolution.width),
-                (windowDimensions.height / baseResolution.height))
-            );
+}
 
-            const desiredDimensions = { width: baseResolution.width * newScale, height: baseResolution.height * newScale };
-            if (desiredDimensions.width !== canvasDimensions.width || desiredDimensions.height !== canvasDimensions.height) {
-                return desiredDimensions;
-            } else {
-                return canvasDimensions;
-            }
-        },
-        { width: 500, height: 500 }
-    );
-
-    React.useEffect(() => {
-        const listener = () => {
-            updateDimensions({ width: window.innerWidth - 100, height: window.innerHeight - 200 });
-        }
-
-        window.addEventListener("resize", listener);
-
-        return () => {
-            window.removeEventListener("resize", listener);
-        }
-    }, []);
+export const Editor = (props: Props) => {
+    const [canvas, setCanvas] = React.useState<HTMLCanvasElement | null>(null);
 
     return (
-        <div>
-            <h1>Editor!</h1>
-            <img { ...dimensions } src="https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-mediumSquareAt3X-v2.jpg"/>
-        </div>
-    )
+        <ColorProvider>
+            <div className="editor">
+                <Canvas/>
+                <ColorPicker/>
+            </div>
+        </ColorProvider>
+    );
 }

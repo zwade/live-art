@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useMatch, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { WrapComponentError } from "../../wrappers";
-import { Editor } from "../editor";
+import { Editor } from "../viewer";
 import { ErrorPage } from "../error";
 
 const getWrappedError = WrapComponentError(ErrorPage)
