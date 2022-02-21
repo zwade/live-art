@@ -1,21 +1,38 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import Peer from "peerjs";
 
 import { WrapComponentError } from "../../wrappers";
-import { Editor } from "../viewer";
+import { Viewer } from "../viewer";
 import { ErrorPage } from "../error";
 
 const getWrappedError = WrapComponentError(ErrorPage)
-const getWrappedEditor = WrapComponentError(Editor);
+const getWrappedViewer = WrapComponentError(Viewer);
 
 const isWideEnough = () => window.outerWidth > 600;
 
 interface Props {
-    page?: string
+    page: string;
 }
 
 const _Drawing = (props: Props) => {
+    const [image, setImage] = React.useState<string | undefined>();
     const [bigEnough, setBigEnough] = React.useState(isWideEnough());
+
+    const page = props.page;
+
+    React.useEffect(() => {
+        if (!page) return;
+
+        const peer = new Peer();
+        peer.on("open", () => {
+            const conn = peer.connect(page);
+            conn.on("data", (data) => {
+                console.log(data);
+                setImage(data);
+            });
+        })
+    }, [page]);
 
     React.useEffect(() => {
         const listener = () => {
@@ -29,18 +46,18 @@ const _Drawing = (props: Props) => {
         }
     });
 
-    const page = bigEnough
-        ? getWrappedEditor({})
+    const view = bigEnough
+        ? getWrappedViewer({ image })
         : getWrappedError({ error: "Please make your window bigger" });
 
     return (
         <div>
-            { page }
+            { view }
         </div>
     );
 };
 
 export const Drawing = () => {
     const params = useParams();
-    return (<_Drawing page={ params.page } />);
+    return (<_Drawing page={ params.page! } />);
 }

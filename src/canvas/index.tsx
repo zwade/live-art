@@ -3,7 +3,6 @@ import React from "react";
 export class CanvasManager {
     private canvas;
     private color;
-    private mousePosition;
     private baseWidth;
     private scale;
 
@@ -12,7 +11,11 @@ export class CanvasManager {
     private ctx;
     private image;
 
-    constructor(canvas: HTMLCanvasElement, color: number, baseWidth = 24, scale = 16) {
+    private mousePosition;
+    private isErasing;
+    private changeHandlers;
+
+    constructor(canvas: HTMLCanvasElement, color: number, baseWidth = 48, scale = 8) {
         this.canvas = canvas;
         this.color = color;
         this.baseWidth = baseWidth;
@@ -31,6 +34,8 @@ export class CanvasManager {
         canvas.addEventListener("mouseleave", this.onMouseUp);
 
         this.mousePosition = [0, 0] as [x: number, y: number];
+        this.isErasing = false;
+        this.changeHandlers = new Set<(data: number[][]) => void>();
 
         this.canvas.width = baseWidth * scale;
         this.canvas.height = baseWidth * scale;
@@ -44,6 +49,21 @@ export class CanvasManager {
         );
     }
 
+    public update(data: number[][]) {
+        if (this.image === data) {
+            return;
+        }
+
+        this.image = data;
+        this.triggerChange();
+    }
+
+    public on(event: "change", cb: (data: number[][]) => void): () => void {
+        this.changeHandlers.add(cb);
+
+        return () => this.changeHandlers.delete(cb);
+    }
+
     public setColor(color: number) {
         this.color = color;
     }
@@ -53,6 +73,8 @@ export class CanvasManager {
         this.canvas.removeEventListener("mousedown", this.onMouseDown);
         this.canvas.removeEventListener("mouseup", this.onMouseUp);
         this.canvas.removeEventListener("mouseleave", this.onMouseUp);
+
+        this.changeHandlers = new Set<(data: number[][]) => void>();
     }
 
     protected onMouseMove(e: MouseEvent) {
@@ -62,15 +84,20 @@ export class CanvasManager {
             return;
         }
 
-        if (this.mouseDown) {
-            this.image[position[1]][position[0]] = this.color;
-        }
-
         this.mousePosition = position;
+        this.isErasing = e.shiftKey;
+
+        const color = this.isErasing ? 0xFFFFFF : this.color;
+
+        if (this.mouseDown && this.image[position[1]][position[0]] !== color) {
+            this.image[position[1]][position[0]] = color;
+            this.triggerChange();
+        }
     }
 
     protected onMouseDown(e: MouseEvent) {
         this.mouseDown = true;
+        this.onMouseMove(e);
     }
 
     protected onMouseUp(e: MouseEvent) {
@@ -87,9 +114,16 @@ export class CanvasManager {
             }
         }
 
-        this.ctx.fillStyle = `#${this.color.toString(16).padStart(6, "0")}`;
+        const color = this.isErasing ? 0xFFFFFF : this.color;
+        this.ctx.fillStyle = `#${color.toString(16).padStart(6, "0")}`;
         this.ctx.fillRect(this.mousePosition[0] * this.scale, this.mousePosition[1] * this.scale, this.scale, this.scale);
 
         requestAnimationFrame(this.draw);
+    }
+
+    protected triggerChange() {
+        for (const cb of this.changeHandlers) {
+            cb(this.image);
+        }
     }
 }

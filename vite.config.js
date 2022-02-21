@@ -4,6 +4,11 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
     plugins: [react(), tsconfigPaths()],
+    build: {
+        commonjsOptions: {
+            transformMixedEsModules: true,
+        },
+    },
     css: {
         modules: {
             localsConvention: "camelCaseOnly"

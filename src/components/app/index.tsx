@@ -1,22 +1,44 @@
 import * as React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import { Drawing } from "../drawing";
 import { Editor } from "../editor";
 import { ErrorPage } from "../error";
 import { Settings, SettingsProvider } from "../settings";
+import logoSrc from "../../assets/logo.png";
 
-export const App = () => {
+import "./index.scss";
+import { Home } from "../home";
+
+const _App = () => {
+    const nav = useNavigate();
+
     return (
-        <BrowserRouter>
-            <SettingsProvider>
+        <div className="page">
+            <img
+                src={logoSrc}
+                className="logo"
+                onClick={() => nav("/")}
+            />
+            <div className="page-content">
                 <Routes>
+                    <Route path="/" element={<Home />} />
                     <Route path="/error" element={<ErrorPage />} />
                     <Route path="/drawing/:page" element={<Drawing />} />
                     <Route path="/editor" element={<Editor />} />
                     <Route path="/settings" element={<Settings />} />
                 </Routes>
-            </SettingsProvider>
-        </BrowserRouter>
+            </div>
+        </div>
     )
 };
+
+export const App = () => {
+    return (
+        <BrowserRouter>
+            <SettingsProvider>
+                <_App/>
+            </SettingsProvider>
+        </BrowserRouter>
+    );
+}

@@ -2,11 +2,16 @@ import * as React from "react";
 
 type Dimensions = { width: number, height: number };
 
-const baseResolution: Dimensions = { width: 500, height: 300 };
+const baseResolution: Dimensions = { width: 384, height: 384 };
 
-export const Editor = () => {
+export interface Props {
+    image?: string;
+}
+
+export const Viewer = (props: Props) => {
     const [dimensions, updateDimensions] = React.useReducer(
         (canvasDimensions: Dimensions, windowDimensions: Dimensions) => {
+            console.log(canvasDimensions);
             const newScale = Math.floor(Math.min(
                 (windowDimensions.width / baseResolution.width),
                 (windowDimensions.height / baseResolution.height))
@@ -38,7 +43,7 @@ export const Editor = () => {
     return (
         <div>
             <h1>Viewing</h1>
-            <img { ...dimensions } src="https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-mediumSquareAt3X-v2.jpg"/>
+            <img { ...dimensions } src={props.image}/>
         </div>
     )
 }
