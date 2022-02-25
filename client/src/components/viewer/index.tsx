@@ -11,7 +11,6 @@ export interface Props {
 export const Viewer = (props: Props) => {
     const [dimensions, updateDimensions] = React.useReducer(
         (canvasDimensions: Dimensions, windowDimensions: Dimensions) => {
-            console.log(canvasDimensions);
             const newScale = Math.floor(Math.min(
                 (windowDimensions.width / baseResolution.width),
                 (windowDimensions.height / baseResolution.height))

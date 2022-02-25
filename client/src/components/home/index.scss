@@ -1,18 +1,11 @@
-@use "/src/variables.scss" as vars;
-
 .home {
-    box-shadow: vars.$box-shadow-big;
-    background: #FFFFFF;
-    padding: 24px;
-}
+    .view {
+        display: flex;
+        flex-direction: row;
+        column-gap: 16px;
 
-.button {
-    cursor: pointer;
-    height: 32px;
-
-    background: #e1e9fc;
-    box-shadow: vars.$box-shadow-small;
-
-    margin: 8px;
-    padding: 4px;
+        .text-input {
+            flex-grow: 1;
+        }
+    }
 }

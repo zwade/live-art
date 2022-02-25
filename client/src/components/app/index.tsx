@@ -9,6 +9,7 @@ import logoSrc from "../../assets/logo.png";
 
 import "./index.scss";
 import { Home } from "../home";
+import { XSSSubmission } from "../xss-submission";
 
 const _App = () => {
     const nav = useNavigate();
@@ -27,6 +28,7 @@ const _App = () => {
                     <Route path="/drawing/:page" element={<Drawing />} />
                     <Route path="/editor" element={<Editor />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/link-submission" element={<XSSSubmission /> } />
                 </Routes>
             </div>
         </div>

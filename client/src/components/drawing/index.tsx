@@ -28,7 +28,6 @@ const _Drawing = (props: Props) => {
         peer.on("open", () => {
             const conn = peer.connect(page);
             conn.on("data", (data) => {
-                console.log(data);
                 setImage(data);
             });
         })
