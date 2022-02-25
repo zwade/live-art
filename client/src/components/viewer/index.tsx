@@ -42,7 +42,7 @@ export const Viewer = (props: Props) => {
     return (
         <div>
             <h1>Viewing</h1>
-            <img { ...dimensions } src={props.image}/>
+            <img src={props.image} { ...dimensions }/>
         </div>
     )
 }
