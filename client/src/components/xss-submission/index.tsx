@@ -128,6 +128,7 @@ export const XSSSubmission = () => {
                         { emailPrefix }<span className="link-text">{ url }</span>{ emailSuffix }
                     </div>
                     <div className="button" onClick={submit}>Send</div>
+                    <div className="xss-reminder">(Reminder! Due to infrastructure limitations you need to attack <span className="good-uri">http://localhost:4000</span> and not <span className="bad-uri">{ window.origin }</span>)</div>
                 </>
             );
             break;

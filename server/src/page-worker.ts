@@ -4,10 +4,14 @@ import * as path from "path";
 
 import { dequeue } from "./database.js";
 
-const ORIGIN = process.env.ORIGIN ?? "http://localhost:4000";
-const FLAG = process.env.FLAG ?? "picoCTF{copilot_says_bongo_cat_is_awesome}";
+// Hardcoded b/ no way to get it from the pico platform.
+const ORIGIN = "http://localhost:4000";
 
 const bongoCat = (await fs.readFile(path.resolve("./bongo-cat.json"))).toString("utf8");
+const defaultMetadata = Buffer.from(JSON.stringify({ flag: "picoCTF{copilot_says_bongo_cat_is_awesome" }), "utf-8");
+const metadata = await fs.readFile("/challenge/metadata.json").catch(() => defaultMetadata);
+const flag = JSON.parse(metadata.toString("utf-8")).flag as string
+
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,14 +22,17 @@ const visitOne = async () => {
         return;
     }
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        dumpio: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
 
     await page.goto(ORIGIN);
     await page.evaluate(([bongoCat, flag]) => {
         localStorage.setItem("image", bongoCat);
-        localStorage.setItem("username", flag);
-    }, [bongoCat, FLAG]);
+        localStorage.setItem("username", JSON.stringify(flag));
+    }, [bongoCat, flag]);
 
     await Promise.race([
         page.goto(url),
@@ -38,7 +45,11 @@ const visitOne = async () => {
 
 export const startVisiting = async () => {
     while (true) {
-        await visitOne();
+        try {
+            await visitOne();
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 

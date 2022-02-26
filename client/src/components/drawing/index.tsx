@@ -9,7 +9,7 @@ import { ErrorPage } from "../error";
 const getWrappedError = WrapComponentError(ErrorPage)
 const getWrappedViewer = WrapComponentError(Viewer);
 
-const isWideEnough = () => window.outerWidth > 600;
+const isWideEnough = () => window.innerWidth > 600;
 
 interface Props {
     page: string;

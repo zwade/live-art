@@ -1,5 +1,8 @@
 {
     "name": "live-art",
+    "scripts": {
+        "prepare-artifacts": "node scripts/prepare-artifacts.js"
+    },
     "workspaces": [
         "client",
         "server"

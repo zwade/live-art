@@ -30,6 +30,20 @@
         }
     }
 
+    .xss-reminder {
+        color: #202020;
+
+        .good-uri {
+            font-weight: bold;
+            color: #068b18
+        }
+
+        .bad-uri {
+            font-weight: bold;
+            color: #b60606
+        }
+    }
+
     .xss-status {
         align-self: center;
 
