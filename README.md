@@ -46,9 +46,12 @@ and visit [http://localhost:4000](http://localhost:4000).
 
 ## Running under cmgr
 
+
 To run the server under cmgr, you can run
 
 ```bash
+# Delete node modules because of https://github.com/ArmyCyberInstitute/cmgr/issues/38
+rm -rf node_modules
 cd ..
 cmgr update live-art
 cmgr playtest picoctf/zwad3/live-art
