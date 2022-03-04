@@ -10,7 +10,7 @@ COPY package.json yarn.lock ./
 COPY client/package.json ./client/package.json
 COPY server/package.json ./server/package.json
 
-RUN --mount=type=cache,target=/problem/.yarn/cache yarn
+RUN yarn
 COPY . .
 
 RUN cd client && yarn vite build
