@@ -16,6 +16,7 @@ COPY . .
 RUN cd client && yarn vite build
 RUN cd server && yarn build
 
+ARG FLAG
 RUN mkdir /challenge
 RUN yarn prepare-artifacts
 
