@@ -18,6 +18,7 @@ RUN cd server && yarn build
 
 ARG FLAG
 RUN mkdir /challenge
+ARG FLAG
 RUN yarn prepare-artifacts
 
 WORKDIR /problem/server
