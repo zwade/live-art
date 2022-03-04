@@ -17,6 +17,7 @@ RUN cd client && yarn vite build
 RUN cd server && yarn build
 
 RUN mkdir /challenge
+ARG FLAG
 RUN yarn prepare-artifacts
 
 WORKDIR /problem/server
