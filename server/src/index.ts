@@ -16,6 +16,11 @@ app.post("/fan-mail", async (req, res) => {
         return res.status(500).send("URL must be a string");
     }
 
+    const asUrl = new URL(url);
+    if (asUrl.protocol !== "http:" && asUrl.protocol !== "https:") {
+        return res.status(500).send("URL must be http or https");
+    }
+
     const success = await enqueue(url, ip);
 
     if (success === false) {
@@ -32,3 +37,7 @@ app.use("/", (req, res) => {
 
 startVisiting();
 app.listen(4000);
+
+process.on("unhandledRejection", (error) => {
+    throw error;
+})

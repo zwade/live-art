@@ -34,8 +34,11 @@ const visitOne = async () => {
         localStorage.setItem("username", JSON.stringify(flag));
     }, [bongoCat, flag]);
 
+    await page.close();
+    const secondPage = await browser.newPage();
+
     await Promise.race([
-        page.goto(url),
+        secondPage.goto(url),
         sleep(3000),
     ]);
     await sleep(3000);
