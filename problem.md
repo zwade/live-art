@@ -9,7 +9,10 @@
 
 There's nothing quite as fun as drawing for an audience. So sign up for LiveArt today and show the world what you can do.
 
-Please note! Due to infrastructure limitations, please make sure you target `http://localhost:4000`. Targeting the website via the same URL you use to access it **will not have a flag**.
+### Infrastructure Notes
+
+ - When writing your exploit, please have the script target `http://localhost:4000`. Trying to access the page using the same origin as you're using will load but **will not have the flag**
+ - The container is only allowed to make outbound connections on ports `80` and `443`. If you try to host your exploit on a different port, it will fail silently.
 
 ## Details
 
@@ -19,7 +22,7 @@ Bundle: {{url_for("bundle.tar.gz", "here")}}
 
 ## Hints
 
-- The flag will be the admin's username/broadcast link, at the origin from which you access the page.
+- The flag will be the admin's username/broadcast link, at the origin `http://localhost:4000/`
 
 ## Solution
 

