@@ -14,7 +14,12 @@ const buildGz = (stub) => {
         "client/package.json",
         "client/tsconfig.json",
         "client/vite.config.js",
-        "client/src"
+        "client/src",
+        "server/README.md",
+        "server/package.json",
+        "server/tsconfig.json",
+        "server/bongo-cat.json",
+        "server/src",
     ];
 
     childProcess.execSync(`tar -cvzf ${dir}/bundle.tar.gz ${files.join(" ")}`);
