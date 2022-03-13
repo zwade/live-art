@@ -13,3 +13,9 @@ node_modules
 dist
 
 *.sqlite
+
+deploy.sh
+testing-dir
+stage.sh
+staging-dir
+package-lock.json
