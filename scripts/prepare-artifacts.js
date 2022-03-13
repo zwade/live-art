@@ -15,7 +15,7 @@ const buildGz = (stub) => {
         "client/tsconfig.json",
         "client/vite.config.js",
         "client/src",
-        "server/README.md",
+        "server/readme.md",
         "server/package.json",
         "server/tsconfig.json",
         "server/bongo-cat.json",
