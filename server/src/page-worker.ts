@@ -4,7 +4,7 @@ import * as path from "path";
 
 import { dequeue } from "./database.js";
 
-// Hardcoded b/ no way to get it from the pico platform.
+// Hardcoded b/c no way to get it from the pico platform.
 const ORIGIN = "http://localhost:4000";
 
 const bongoCat = (await fs.readFile(path.resolve("./bongo-cat.json"))).toString("utf8");
@@ -24,6 +24,7 @@ const visitOne = async () => {
 
     const browser = await puppeteer.launch({
         dumpio: true,
+        pipe: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage();

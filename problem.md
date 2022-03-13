@@ -23,6 +23,7 @@ Bundle: {{url_for("bundle.tar.gz", "here")}}
 ## Hints
 
 - The flag will be the admin's username/broadcast link, at the origin `http://localhost:4000/`
+- https://html.spec.whatwg.org/multipage/custom-elements.html
 
 ## Solution
 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { generateUsername } from "../../utils";
 import { ComponentError } from "../../wrappers";
+import { TextInput } from "../text-input";
 import { SettingsContext } from "./settings-provider";
 
 export interface Props {
@@ -45,18 +46,17 @@ export const SettingsOptions = (props: Props) => {
                 <label htmlFor="allow-connections">Allow connections from viewers</label>
             </div>
             <div className="settings-option">
-                <input
-                    type="text"
+                <TextInput
                     placeholder={"Connection Username"}
                     value={activeUsername}
-                    onChange={(e) => setActiveUsername(e.target.value)}
+                    onChange={(e) => setActiveUsername(e)}
                 />
-                <button
-                    disabled={activeUsername === settings.username}
+                <div
+                    className={`button ${activeUsername === settings.username ? "disabled" : ""}`}
                     onClick={updateUsername}
                 >
                     Update
-                </button>
+                </div>
             </div>
         </div>
     );
